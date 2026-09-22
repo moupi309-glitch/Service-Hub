@@ -1,22 +1,16 @@
 services:
-    - type: web
+  - type: web
     name: service-hub-backend
     env: node
-    plan: free
     rootDir: backend
     buildCommand: npm install
-    startCommand: node server.js
-    autoDeploy: false
-
-    - type: web
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+  - type: web
     name: service-hub-frontend
     env: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    routes:
-            - type: rewrite
-        source: /*
-        destination: /index.html
-    autoDeploy: false
+    staticPublishPath: ./dist
