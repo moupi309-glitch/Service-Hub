@@ -1,0 +1,14 @@
+name: Build Service Hub
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: chmod +x build.sh &&./build.sh
+      - run: |
+          git config --global user.email "bot@servicehub.com"
+          git config --global user.name "Builder"
+          git add.
+          git commit -m "auto build" || echo "no changes"
+          git push
