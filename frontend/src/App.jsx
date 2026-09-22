@@ -1,13 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react'
 export default function App(){
-  const [services,setServices]=useState([]);
-  useEffect(()=>{fetch('https://service-hub-backend.onrender.com/api/services').then(r=>r.json()).then(setServices).catch(()=>setServices([{name:"Plumbing"},{name:"Electrical"}]))},[]);
-  return (<div style={{fontFamily:'sans-serif',padding:20}}>
-    <h1>🔧 Service Hub - Botswana</h1>
-    <p>Book plumbing, electrical, cleaning services with live tracking</p>
-    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-      {services.map((s,i)=><div key={i} style={{border:'1px solid #ccc',padding:15,borderRadius:8}}><h3>{s.name}</h3><p>P {s.price||500}</p><button onClick={()=>alert('Booking '+s.name)}>Book Now</button></div>)}
+  const [booked,setBooked]=useState(null)
+  const models=[
+    {id:1,name:"Sophia",age:24,location:"Gaborone",price:"P500/hr",img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400"},
+    {id:2,name:"Maya",age:22,location:"Francistown",price:"P400/hr",img:"https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400"},
+    {id:3,name:"Amara",age:25,location:"Maun",price:"P600/hr",img:"https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400"}
+  ]
+  return (<div style={{fontFamily:'sans-serif',padding:'20px',background:'#111',minHeight:'100vh',color:'white'}}>
+    <h1 style={{color:'#ff0066'}}>🔥 Service Hub - Models BW</h1>
+    <p>Premium Models - Discreet & Private</p>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:'20px',marginTop:'20px'}}>
+      {models.map(m=><div key={m.id} style={{background:'#222',borderRadius:'12px',overflow:'hidden'}}>
+        <img src={m.img} style={{width:'100%',height:'300px',objectFit:'cover'}}/>
+        <div style={{padding:'15px'}}><h3>{m.name}, {m.age}</h3><p>{m.location} - {m.price}</p>
+        <button onClick={()=>setBooked(m.name)} style={{width:'100%',padding:'10px',background:'#ff0066',color:'white',border:'none',borderRadius:'8px',marginTop:'10px',fontWeight:'bold'}}>
+          {booked===m.name?"✓ Booked!":"Book Now"}</button></div></div>)}
     </div>
-    <hr/><h3>Features: Real-time tracking, WhatsApp notifications, Pay with Orange Money</h3>
-  </div>);
+    {booked&&<div style={{position:'fixed',bottom:'20px',right:'20px',background:'#ff0066',padding:'15px',borderRadius:'10px'}}>✅ {booked} booked! Check WhatsApp!</div>}
+  </div>)
 }
